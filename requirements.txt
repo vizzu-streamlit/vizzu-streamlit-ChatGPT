@@ -2,4 +2,3 @@ ipyvizzu
 streamlit>=1.13.0
 streamlit_chat
 openai
--e .
