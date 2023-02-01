@@ -39,6 +39,18 @@ chart = Chart(width="640px", height="360px")
 
 chart.animate(data)
 
+chart.animate(
+    Data.filter("record.Period === 'Past' && record.Category === 'Population'"),
+            Config(
+                {
+                    "x":"Year",
+                    "y": "Medium",
+                    "label": "Medium",
+                    "title": "The Population of the World 1950-2020",
+                }
+            )
+)
+
 
 
 # We will get the user's input by calling the get_text function
