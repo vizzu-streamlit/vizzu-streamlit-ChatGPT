@@ -1,8 +1,10 @@
 import openai 
 import streamlit as st
+import pandas as pd
 
 # pip install streamlit-chat  
 from streamlit_chat import message
+from ipyvizzu import Chart, Data, Config
 
 openai.api_key = st.secrets["api_secret"]
 
@@ -27,9 +29,21 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
+
+#The Vizzu part
+data = Data()
+df = pd.read_csv("https://raw.githubusercontent.com/vizzu-streamlit/world-population-story/main/Data/world_pop.csv", dtype={"Year": str})
+data.add_data_frame(df)
+
+chart = Chart(width="640px", height="360px")
+
+chart.animate(data)
+
+
+
 # We will get the user's input by calling the get_text function
 def get_text():
-    input_text = st.text_input("You: ","Hello, how are you?", key="input")
+    input_text = st.text_area("You: ","Hello, how are you?", key="input")
     return input_text
 
 user_input = get_text()
@@ -45,4 +59,4 @@ if st.session_state['generated']:
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
         message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-        
+        chart.animate( message(st.session_state["generated"][i], key=str(i)))
